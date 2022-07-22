@@ -1,6 +1,8 @@
 require('dotenv').config({path:"./config.env"})
 const express = require('express')
 const cors = require('cors')
+//importing routes
+const authRoute = require('./routes/auth')
 
 //express application
 const app = express()
@@ -13,8 +15,13 @@ app.use(cors({
 }))
 
 //routes
-
+app.use('/api/auth/',authRoute)
 
 //PORT
 PORT = process.env.PORT || 4000
 
+
+//starting server
+app.listen(PORT,()=>{
+    console.log('server started on '+PORT)
+})
