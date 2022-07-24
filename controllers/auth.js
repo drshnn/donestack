@@ -1,8 +1,15 @@
 
 //controllers
 //register controller
-exports.register = (req,res,next)=>{
-    res.send('register route')
+exports.register = async(req,res,next)=>{
+const {username,email,password}= req.body;
+try{
+    const user = await User.create({
+        username,email,password
+    });
+    //take from here
+}catch(error){
+}
 }
 
 //login controller
