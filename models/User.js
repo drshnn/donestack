@@ -16,10 +16,11 @@ const UserSchema = new mongoose.Schema({
     },
     password:{
         type:String,
+        unique:true,
         required:[true,"Please enter a password"],
-        minlength:6,
+        minlength:[6,"Password is too short, Enter more than 6 characters"],
         select:false
-    },
+        },
     resetPasswordToken:String,
     resetPasswordExpire:Date,
 },
