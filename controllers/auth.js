@@ -22,9 +22,26 @@ next(error)
 }
 
 //login controller
-exports.login= (req,res,next)=>{
-    res.send('Login route')
+exports.login= async(req,res,next)=>{
+const {email,password}= req.body;
+if(!email||!password){
+    return next(new ErrorResponse("Please provide an email and password"),401)
 }
+try {
+   const user = await User.findOne({email}).select("+password")
+   if(!user){
+    return next(new ErrorResponse("User not found ",401))
+   }
+   const isMatch = await user.matchPassword(password)
+   if(!isMatch){
+    return next(new ErrorResponse("Invalid Credentials",401))
+   }
+   sendToken(user,201,res)
+} catch (error) {
+return next(error)
+}
+}
+
 
 //forgot password controller
 exports.forgotPwd= (req,res,next)=>{
