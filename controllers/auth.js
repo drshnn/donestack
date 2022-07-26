@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const User = require('../models/User')
-// add ErrorResponse
+const ErrorResponse = require('../utils/errorResponse')
+
 // add sendEmail
 
 
