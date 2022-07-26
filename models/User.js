@@ -52,4 +52,4 @@ UserSchema.methods.getUsernameEmail = function(){
 
 //model export
 const User= mongoose.model("User",UserSchema)
-module.exports = user;
+module.exports = User;
