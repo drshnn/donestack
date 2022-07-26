@@ -1,5 +1,9 @@
+const crypto = require('crypto')
 const mongoose = require("mongoose")
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
+//user schema
 const UserSchema = new mongoose.Schema({
     username:{
         type:String,
@@ -23,6 +27,29 @@ const UserSchema = new mongoose.Schema({
   timestamps: true
 })
 
-const User= mongoose.model("User",UserSchema)
+//middleware: Begin
+UserSchema.pre('save',async function(next){
+    if(!this.isModified("password")){
+        next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password,salt)
+    next();
+}) // hashing the password
 
+UserSchema.methods.matchPassword = async function(password){
+    return await bcrypt.compare(password,this.password)
+}
+
+UserSchema.methods.getSignedToken = function(){
+    return jwt.sign({id:this._id},process.env.JWT_SECRET, {expiresIn:process.env.JWT_EXPIRE})
+}
+
+UserSchema.methods.getUsernameEmail = function(){
+    return {username:this.username,email:this.email}
+}
+//middleware: End
+
+//model export
+const User= mongoose.model("User",UserSchema)
 module.exports = user;
