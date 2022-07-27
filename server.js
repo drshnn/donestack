@@ -23,6 +23,7 @@ app.use(cors({
 
 //routes
 app.use('/api/auth/',authRoute)
+app.use('/api/private',require('./routes/private'))
 app.use(errorHandler) //should be last middleware
 //PORT
 
