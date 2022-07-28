@@ -7,7 +7,6 @@ import Spinner from "./common/Spinner";
 
 function AuthLayout() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
   //check authentication
   const checkAuth = async () => {
