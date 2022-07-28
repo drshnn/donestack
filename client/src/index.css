@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.field {
+    @apply flex flex-col
+}
+
+.input{
+    @apply px-2 py-1.5 w-64 outline-none border border-gray-400 rounded-md
+}

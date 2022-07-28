@@ -23,7 +23,20 @@ function AuthLayout() {
     checkAuth();
   }, [navigate]);
 
-  return loading ? <p>loading</p> : <Outlet />;
+  return (
+    <div className=" w-screen h-screen  bg-lightbg flex justify-center items-center">
+      {loading ? (
+        <div className="  flex justify-center items-center p-5 bg-white rounded-lg shadow-sm">
+          {/* <Spinner spinnerColor="#83D300" /> */}
+          Loading
+        </div>
+      ) : (
+        <div className=" px-12 py-16 bg-white rounded-lg shadow-sm">
+          <Outlet />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default AuthLayout;
