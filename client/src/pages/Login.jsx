@@ -1,9 +1,16 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 function Login() {
+  const [email, setEmail] = useState("");
+  const [emailErr, setEmailErr] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordErr, setPasswordErr] = useState("");
+  const [isOkay, setIsOkay] = useState(false);
+  // useState(() => {}, [email, password]);
   const submitHandler = (e) => {
     e.preventDefault();
   };
+
   return (
     <div>
       <h1 className="font-bold  text-3xl mb-8 text-center">Login</h1>
@@ -15,7 +22,9 @@ function Login() {
             className="input"
             name="email"
             placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
           />
+          {emailErr && <p className="text-red-600">{emailErr}</p>}
         </div>
         <div className="field">
           <label htmlFor="password">Password</label>
@@ -24,7 +33,9 @@ function Login() {
             className="input"
             name="password"
             placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
+          {passwordErr && <p className="text-red-600">{passwordErr}</p>}
         </div>
         <button
           type="submit"
