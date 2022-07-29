@@ -1,25 +1,42 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import authApi from "../api/authApi";
 function Register() {
   const initialValues = { email: "", password: "" };
   const [formValues, setFromValues] = useState(initialValues);
   const [formErrors, setformErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
   // useState(() => {}, [email, password]);
   const changeHandler = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
     setFromValues({ ...formValues, [name]: value });
   };
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     setformErrors(validate(formValues));
     setIsSubmit(true);
   };
 
+  const finalSubmit = async (e) => {
+    setLoading(true);
+    try {
+      const res = await authApi.register({
+        username,
+        email,
+        password,
+      });
+      setLoading(false);
+    } catch (error) {
+      const errorState = {};
+      const errors = error.data.errors;
+      errors.array.forEach((e) => {});
+    }
+  };
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log("form submitted");
+      finalSubmit();
     }
   }, [formErrors]);
 
