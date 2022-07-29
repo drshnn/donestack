@@ -7,6 +7,7 @@ function Register() {
   const [formErrors, setformErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [backendError, setBackendError] = useState([]);
   // useState(() => {}, [email, password]);
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -23,15 +24,22 @@ function Register() {
     setLoading(true);
     try {
       const res = await authApi.register({
-        username,
-        email,
-        password,
+        username: formValues.username,
+        email: formValues.email,
+        password: formValues.password,
       });
+      console.log(res);
       setLoading(false);
     } catch (error) {
-      const errorState = {};
-      const errors = error.data.errors;
-      errors.array.forEach((e) => {});
+      if (error.data) {
+        const errors = error.data.errors;
+        errors.array.forEach((e) => {
+          setBackendError([...backendError, e]);
+        });
+      } else {
+        console.log(error);
+      }
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -69,6 +77,13 @@ function Register() {
     <div>
       <h1 className="font-bold  text-3xl mb-8 text-center">Register</h1>
       <form onSubmit={submitHandler} className="flex flex-col gap-7">
+        {backendError.length > 0 && (
+          <div className="w-full bg-red-200 text-red-800 px-2.5 py-1.5">
+            {backendError.map((value, index) => (
+              <p key={index}>{value}</p>
+            ))}
+          </div>
+        )}
         <div className="field">
           <label htmlFor="Username">Username</label>
           <input
