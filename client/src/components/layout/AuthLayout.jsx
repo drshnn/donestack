@@ -27,7 +27,7 @@ function AuthLayout() {
       {loading ? (
         <div className="  flex justify-center items-center p-5 bg-white rounded-lg shadow-sm">
           {/* <Spinner spinnerColor="#83D300" /> */}
-          Loading
+          <Spinner />
         </div>
       ) : (
         <div className=" px-12 py-16 bg-white rounded-lg shadow-sm">

@@ -2,14 +2,28 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import authApi from "../api/authApi";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../redux/features/user/userAction";
+import Spinner from "../components/common/Spinner";
 function Register() {
+  const { isLoading, error, user, success } = useSelector(
+    (store) => store.user
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValues = { email: "", password: "" };
   const [formValues, setFromValues] = useState(initialValues);
   const [formErrors, setformErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [backendError, setBackendError] = useState([]);
   // useState(() => {}, [email, password]);
+
+  useEffect(() => {
+    // redirect user to login page if registration was successful
+    if (success || user) navigate("/");
+    // redirect authenticated user to profile screen
+  }, [navigate, user, success]);
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
@@ -22,26 +36,9 @@ function Register() {
   };
 
   const finalSubmit = async (e) => {
-    setLoading(true);
-    try {
-      const res = await authApi.register({
-        username: formValues.username,
-        email: formValues.email,
-        password: formValues.password,
-      });
-      console.log(res);
-      setLoading(false);
-    } catch (error) {
-      if (error.data) {
-        const errors = error.data.errors;
-        errors.array.forEach((e) => {
-          setBackendError([...backendError, e]);
-        });
-      } else {
-        console.log(error);
-      }
-      setLoading(false);
-    }
+    const { username, email, password } = formValues;
+    console.log({ username, email, password });
+    dispatch(register({ username, email, password }));
   };
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -74,6 +71,9 @@ function Register() {
     }
     return errors;
   };
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
   return (
     <div>
       <h1 className="font-bold  text-3xl mb-8 text-center">Register</h1>

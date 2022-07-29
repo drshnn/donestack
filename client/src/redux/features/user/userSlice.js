@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { register } from "./userAction";
 
 const initialState = {
-    loading:false,
+    isLoading:false,
     user:null,
     error:null,
     succss:false
@@ -14,19 +14,21 @@ initialState,
 reducers:{},
 extraReducers:{
     [register.pending]: (state) => {
-      state.loading = true
+      state.isLoading = true
     },
     [register.fulfilled]: (state, { payload }) => {
-      state.loading = false
+      state.isLoading = false
       state.success = true // registration successful
       state.user = payload
 
     },
     [register.rejected]: (state, { payload }) => {
-      state.loading = false
+      state.isLoading = false
       state.error = payload
       state.user = null
     },
+
+
 }
 })
 
