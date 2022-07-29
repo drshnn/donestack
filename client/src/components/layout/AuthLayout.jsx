@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import authUtils from "../../utils/authUtils";
-import Spinner from "./common/Spinner";
+import Spinner from "../common/Spinner";
 
 function AuthLayout() {
   const navigate = useNavigate();

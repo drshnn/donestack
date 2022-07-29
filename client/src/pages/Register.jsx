@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import authApi from "../api/authApi";
+import { useDispatch, useSelector } from "react-redux";
 function Register() {
   const initialValues = { email: "", password: "" };
   const [formValues, setFromValues] = useState(initialValues);
