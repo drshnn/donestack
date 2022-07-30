@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register,login } from "./userAction";
+import { getUserDetails,register,login } from "./userAction";
 
 const userToken= localStorage.getItem('userToken') || null
 
@@ -50,7 +50,19 @@ extraReducers:{
     state.error = payload
     state.user = null
     state.userToken = null
-  }
+  },
+  //get user Details
+  [getUserDetails.pending]: (state) => {
+      state.isLoading = true
+    },
+    [getUserDetails.fulfilled]: (state, { payload }) => {
+      state.isLoading = false
+      state.user = payload
+      state.success = true
+    },
+    [getUserDetails.rejected]: (state, { payload }) => {
+      state.isLoading = false
+    },
 
 
 }

@@ -3,26 +3,30 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import authUtils from "../../utils/authUtils";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserDetails } from "../../redux/features/user/userAction";
 function AppLayout() {
+  const { userToken, isLoading, success, user } = useSelector(
+    (state) => state.user
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  //check authentication
-  const checkAuth = async () => {
-    const user = await authUtils.isAuthenticated();
-    if (!user) {
-      // navigate("/login");
-    } else {
-      setLoading(false);
-    }
-  };
-
+  // automatically authenticate user if token is found
   useEffect(() => {
-    checkAuth();
-  }, [navigate]);
+    // redirect user to login page if registration was successful
+    if (success || user) navigate("/");
+
+    // redirect authenticated user to profile screen
+  }, [navigate, user, success]);
+  useEffect(() => {
+    if (userToken) {
+      dispatch(getUserDetails());
+    }
+  }, [userToken, dispatch]);
 
   return (
     <div className=" w-screen h-screen  bg-lightbg flex justify-center items-center">
-      {loading ? (
+      {isLoading ? (
         <div className="  flex justify-center items-center p-5 bg-white rounded-lg shadow-sm">
           {/* <Spinner spinnerColor="#83D300" /> */}
           Loading
