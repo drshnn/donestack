@@ -9,7 +9,7 @@ const initialState = {
     userToken,
     user:null,
     error:null,
-    succss:false
+    success:false
 }
 
 const userSlice = createSlice({

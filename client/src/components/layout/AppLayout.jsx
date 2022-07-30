@@ -14,10 +14,13 @@ function AppLayout() {
   // automatically authenticate user if token is found
   useEffect(() => {
     // redirect user to login page if registration was successful
-    if (success || user) navigate("/");
+    if (!success || !user) {
+      navigate("/login");
+      console.log("not success");
+    }
 
     // redirect authenticated user to profile screen
-  }, [navigate, user, success]);
+  }, [user, success]);
   useEffect(() => {
     if (userToken) {
       dispatch(getUserDetails());
