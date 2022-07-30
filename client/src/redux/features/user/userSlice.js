@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { register,login } from "./userAction";
 
-const user = localStorage.getItem('user') || null
+const userToken= localStorage.getItem('userToken') || null
 
 
 const initialState = {
     isLoading:false,
-    user,
+    userToken,
+    user:null,
     error:null,
     succss:false
 }
@@ -23,13 +24,15 @@ extraReducers:{
     [register.fulfilled]: (state, { payload }) => {
       state.isLoading = false
       state.success = true // registration successful
-      state.user = payload
+      state.userToken = payload.token
+      state.user = payload.userData
 
     },
     [register.rejected]: (state, { payload }) => {
       state.isLoading = false
       state.error = payload
       state.user = null
+      state.token = null
     },
   //for user Login
   [login.pending]:(state)=>{
@@ -39,12 +42,14 @@ extraReducers:{
   [login.fulfilled]: (state,{payload}) =>{
     state.isLoading = false
     state.success = true
-    state.user = payload
+    state.userToken = payload.token
+    state.user = payload.userData
   },
   [login.rejected]:(state,{payload})=>{
     state.isLoading=false
     state.error = payload
     state.user = null
+    state.userToken = null
   }
 
 

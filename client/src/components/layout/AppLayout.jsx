@@ -10,7 +10,7 @@ function AppLayout() {
   const checkAuth = async () => {
     const user = await authUtils.isAuthenticated();
     if (!user) {
-      navigate("/login");
+      // navigate("/login");
     } else {
       setLoading(false);
     }

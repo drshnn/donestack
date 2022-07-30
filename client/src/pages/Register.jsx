@@ -37,7 +37,6 @@ function Register() {
 
   const finalSubmit = async (e) => {
     const { username, email, password } = formValues;
-    console.log({ username, email, password });
     dispatch(register({ username, email, password }));
   };
   useEffect(() => {

@@ -11,7 +11,7 @@ export const register = createAsyncThunk(
             },
            }
       const {data}  =   await axios.post(baseURL+'register',{username,email,password},config)
-      localStorage.setItem('userToken', data)
+      localStorage.setItem('userToken', data.token)
       return data
         } catch (error) {
       if (error.response && error.response.data.message) {
@@ -34,12 +34,12 @@ export const login = createAsyncThunk(
         },
       }
       const { data } = await axios.post(
-        '/api/user/login',
+        baseURL+'login',
         { email, password },
         config
       )
       // store user's token in local storage
-      localStorage.setItem('user', data)
+      localStorage.setItem('userToken', data.token)
       return data
     } catch (error) {
       // return custom error message from API if any

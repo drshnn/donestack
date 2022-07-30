@@ -1,16 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../redux/features/user/userAction";
 function Login() {
+  const { isLoading, error, user, success } = useSelector(
+    (store) => store.user
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValues = { email: "", password: "" };
   const [formValues, setFromValues] = useState(initialValues);
   const [formErrors, setformErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   // useState(() => {}, [email, password]);
+  useEffect(() => {
+    // redirect user to login page if registration was successful
+    if (success || user) navigate("/");
+    // redirect authenticated user to profile screen
+  }, [navigate, user, success]);
+  //
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
     setFromValues({ ...formValues, [name]: value });
   };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setformErrors(validate(formValues));
@@ -19,7 +35,8 @@ function Login() {
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log("form submitted");
+      const { email, password } = formValues;
+      dispatch(login({ email, password }));
     }
   }, [formErrors]);
 
