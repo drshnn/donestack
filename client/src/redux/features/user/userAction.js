@@ -11,7 +11,7 @@ export const register = createAsyncThunk(
             },
            }
       const {data}  =   await axios.post(baseURL+'register',{username,email,password},config)
-      localStorage.setItem('userToken', data.userToken)
+      localStorage.setItem('userToken', data.token)
       return data
         } catch (error) {
       if (error.response && error.response.data.message) {

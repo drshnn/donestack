@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { register } from "./userAction";
 
+const user = localStorage.getItem('user') || null
+
+
 const initialState = {
     isLoading:false,
-    user:null,
+    user,
     error:null,
     succss:false
 }
