@@ -15,7 +15,13 @@ const initialState = {
 const userSlice = createSlice({
 name:'user',
 initialState,
-reducers:{},
+reducers:{
+ reset:(state)=>{
+  state.isLoading= false
+  state.success = false
+  state.error =null
+  }
+},
 extraReducers:{
   //for user Regsteration
     [register.pending]: (state) => {
@@ -33,6 +39,7 @@ extraReducers:{
       state.error = payload
       state.user = null
       state.token = null
+      state.success=false
     },
   //for user Login
   [login.pending]:(state)=>{
@@ -62,11 +69,12 @@ extraReducers:{
     },
     [getUserDetails.rejected]: (state, { payload }) => {
       state.isLoading = false
+      state.success=false
     },
 
 
 }
 })
 
-
+export const {reset} = userSlice.actions;
 export default userSlice.reducer;

@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import authUtils from "../../utils/authUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserDetails } from "../../redux/features/user/userAction";
+import Spinner from "../common/Spinner";
 function AppLayout() {
   const { userToken, isLoading, success, user } = useSelector(
     (state) => state.user
@@ -32,7 +33,7 @@ function AppLayout() {
       {isLoading ? (
         <div className="  flex justify-center items-center p-5 bg-white rounded-lg shadow-sm">
           {/* <Spinner spinnerColor="#83D300" /> */}
-          Loading
+          <Spinner />
         </div>
       ) : (
         <div className=" px-12 py-16 bg-white rounded-lg shadow-sm">
