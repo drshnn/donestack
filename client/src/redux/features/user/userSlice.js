@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register } from "./userAction";
+import { register,login } from "./userAction";
 
 const user = localStorage.getItem('user') || null
 
@@ -16,6 +16,7 @@ name:'user',
 initialState,
 reducers:{},
 extraReducers:{
+  //for user Regsteration
     [register.pending]: (state) => {
       state.isLoading = true
     },
@@ -30,6 +31,21 @@ extraReducers:{
       state.error = payload
       state.user = null
     },
+  //for user Login
+  [login.pending]:(state)=>{
+    state.isLoading=true
+    state.error = null
+  },
+  [login.fulfilled]: (state,{payload}) =>{
+    state.isLoading = false
+    state.success = true
+    state.user = payload
+  },
+  [login.rejected]:(state,{payload})=>{
+    state.isLoading=false
+    state.error = payload
+    state.user = null
+  }
 
 
 }
